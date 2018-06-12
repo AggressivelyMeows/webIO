@@ -51,15 +51,22 @@ async def before_request(request):
 async def test(request):
     return {'msg': f'hello, {username}'}
 
-@server.endpoint('kill_server')
-async def kill_server(request):
+@server.endpoint('session_example')
+async def session_example(request):
+    """
+    This is an example of the in-memory session
+    system the server has. These sessions are only
+    avalible to the orign websocket
+    """
+    # access via {"action": "webio.session_example"}
+    
     print(request.session)
     try:
         request.session['test'].append(random.randint(0,14500000))
     except:
         request.session['test'] = [random.randint(0,14500000)]
     
-    return
+    return # you can return None and it will still be a success
 
 
 print('Starting server')
